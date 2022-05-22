@@ -4,6 +4,8 @@ import bodyParser from "body-parser";
 import posts from "./routers/Conversations.js"
 import {Server} from "socket.io"
 import mongoose from 'mongoose';
+import dotenv from "dotenv";
+dotenv.config();
 
 var app = express();
 const server = http.createServer(app);
@@ -11,7 +13,7 @@ const server = http.createServer(app);
 app.use(bodyParser.json({ limit: '30mb'}))
 app.use(bodyParser.urlencoded({ extended: true, limit: '30mb'}))
 
-const URI = 'mongodb+srv://admin:qaqiSjhB8tQMufHY@cluster0.k0rt8.mongodb.net/?retryWrites=true&w=majority'
+const URI = process.env.URI
 
 app.use('/', posts)
 
