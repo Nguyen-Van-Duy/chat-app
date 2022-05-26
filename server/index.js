@@ -6,6 +6,7 @@ import {Server} from "socket.io"
 import mongoose from 'mongoose';
 import dotenv from "dotenv";
 import route from './routers/index.js';
+import cors from 'cors'
 dotenv.config();
 
 var app = express();
@@ -17,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '30mb'}))
 const URI = process.env.URI
 
 // app.use('/', posts)
-
+app.use(cors())
 route(app)
 
 mongoose.connect(URI, {useNewUrlParser: true, useUnifiedTopology: true})
