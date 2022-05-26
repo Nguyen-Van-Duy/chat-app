@@ -5,6 +5,7 @@ import posts from "./routers/Conversations.js"
 import {Server} from "socket.io"
 import mongoose from 'mongoose';
 import dotenv from "dotenv";
+import route from './routers/index.js';
 dotenv.config();
 
 var app = express();
@@ -15,7 +16,9 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '30mb'}))
 
 const URI = process.env.URI
 
-app.use('/', posts)
+// app.use('/', posts)
+
+route(app)
 
 mongoose.connect(URI, {useNewUrlParser: true, useUnifiedTopology: true})
   .then(() => {
@@ -44,6 +47,8 @@ socketIo.on("connection", (socket) => {
     console.log("Client disconnected");
   });
 });
+
+
 
 server.listen(5000, () => {
     console.log('Server đang chay tren cong 5000');

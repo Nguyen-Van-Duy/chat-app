@@ -1,16 +1,20 @@
 import express from 'express';
-import Conversation from '../models/Conversation';
+import Conversation from '../models/Conversation.js';
 
 const router = express.Router();
 
-router.post('/id', async (req, res) => {
-    const newConversation = new Conversation({
-        members: [req.body.serderId, req.body.receiveId]
-    })
+router.get('/a', (req, res) => {
     res.json({
-        status: 200,
-        message: 'Sucsess'
+        message: "true"
     })
+})
+
+router.post('/id', async (req, res) => {
+    console.log(req.body.senderId, req.body.receiverId);
+    const newConversation = new Conversation({
+        menbers: [req.body.senderId, req.body.receiverId],
+    })
+    
     try {
         const savedConversation = await newConversation.save()
         res.status(200).json(savedConversation)
