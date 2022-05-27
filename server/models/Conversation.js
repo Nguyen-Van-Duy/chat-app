@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const ConversationSchema = new mongoose.Schema(
     {
-        menbers: {
+        members: {
             type: Array,
         },
     }, 

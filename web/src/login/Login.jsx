@@ -1,19 +1,58 @@
-// import React, { useState } from 'react';
 import './login.css'
 import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserId } from '../store/reducers/LoginSlice';
+// import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const Login = () => {
-    // const [valueRegister, setDataRegister] = useState([])
+    const userId = useSelector((state) => state.loginSlice.userId)
+    const isLogin = useSelector((state) => state.loginSlice.isLogin)
+    const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if(isLogin) {
+        navigate('/messenger')
+    }
+  }, [isLogin, navigate])
+
+  console.log(userId);
     const handleRegister = async (e) => {
         e.preventDefault();
-        // console.log(e.target[0].value);
         const result = await axios.post('http://localhost:5000/account/user', {
             userName: e.target[0].value,
             email: e.target[1].value,
             password: e.target[2].value
         })
         console.log(result);
+        if(result.data.status === 200) {
+            alert("Đăng ký thành công!")
+        } else {
+            alert(result.data.message)
+        }
     }
+
+    const HandleLogin = async (e) => {
+        e.preventDefault();
+        if(e.target[0].value === "" || e.target[1].value === "") {
+            alert("Không được để trống!")
+            return
+        }
+        const result = await axios.post('http://localhost:5000/account/login', {
+            email: e.target[0].value,
+            password: e.target[1].value
+        })
+        if(result.data.status === 200) {
+            console.log(result);
+            dispatch(setUserId(result.data._id))
+            navigate('/messenger')
+        } else {
+            alert('Tài khoản mật khẩu không chính xác!')
+        }
+    }
+
     return (
         <div className="body">
             <div className="main">  	
@@ -30,11 +69,11 @@ const Login = () => {
                 </div>
 
                 <div className="login">
-                    <form>
+                    <form onSubmit={HandleLogin}>
                         <label htmlFor="chk" aria-hidden="true">Login</label>
                         <input type="email" name="email" placeholder="Email" required="" />
                         <input type="password" name="pswd" placeholder="Password" required=""/>
-                        <button>Login</button>
+                        <button type='submit'>Login</button>
                     </form>
                 </div>
             </div>
