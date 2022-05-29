@@ -10,10 +10,13 @@ function Mesenger() {
   const [userConversation, setUserConversation] = useState([])
   const navigate = useNavigate()
   const isLogin = useSelector(state=> state.loginSlice.isLogin)
+  const userId = useSelector(state=> state.loginSlice.userId)
+  // const [ConversationId, setConversationId] = useState([])
+  // console.log(userId);
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await axios.get('http://localhost:5000/account/user')
+      const data = await axios.get('http://localhost:5000/account/user/' + userId)
       setUserConversation(data.data)
     }
     fetchData()

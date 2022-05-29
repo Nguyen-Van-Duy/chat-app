@@ -2,6 +2,7 @@ import React from 'react'
 import './conversation.scss'
 
 export default function Conversation({item}) {
+  console.log(item);
   return (
     <div className="conversation">
       <img

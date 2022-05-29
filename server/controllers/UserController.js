@@ -73,3 +73,11 @@ export const GetUserController = async (req, res) => {
     }
 }
 
+export const GetFriendController = async (req, res) => {
+    try {
+        const data = await Users.find({_id: req.params.userId})
+        res.status(200).json(data)
+    } catch (error) {
+        res.status(500).json({ error})
+    }
+}
