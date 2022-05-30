@@ -1,12 +1,9 @@
 import express from 'express';
+import {SendMessageController, GetMessageController} from '../controllers/MessageController.js'
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.json({
-        status: 200,
-        message: 'Sucsess'
-    })
-})
+router.get('/:conversationId', GetMessageController)
+router.post('/', SendMessageController)
 
 export default router;

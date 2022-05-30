@@ -1,7 +1,19 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import './conversation.scss'
 
-export default function Conversation({item}) {
+export default function Conversation({item, currentId}) {
+
+  const [user, setUser] = useState(null)
+
+  useEffect(()=> {
+    const friendId = item.members.find(f=> f !== currentId)
+    const getUser = async () => {
+      const data = await axios.get('http://localhost:5000/account/user/' + friendId)
+      setUser(data.data)
+    }
+    getUser()
+  }, [currentId, item.members])
   return (
     <div className="conversation">
       <img
@@ -9,7 +21,7 @@ export default function Conversation({item}) {
         src="https://pdp.edu.vn/wp-content/uploads/2021/05/hinh-anh-avatar-nam-1-600x600.jpg"
         alt=""
       />
-      <span className="conversationName">{item.userName}</span>
+      <span className="conversationName">{user?.userName}</span>
     </div>
   )
 }
