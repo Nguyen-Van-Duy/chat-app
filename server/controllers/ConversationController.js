@@ -17,8 +17,10 @@ export const ConversationController = async (req, res) => {
 export const GetIdConversation = async (req, res) => {
     try {
         const conversation = await Conversation.find({
-            member: {$in:[req.params.userId]}
+            members: {$in:[req.params.userId]}
         })
+        console.log(req.params.userId);
+        console.log(conversation);
         res.status(200).json(conversation)
     } catch (error) {
         res.status(500).json({ error})

@@ -11040,6 +11040,11 @@
   "resolved" "https://registry.npmjs.org/thunky/-/thunky-1.1.0.tgz"
   "version" "1.1.0"
 
+"timeago.js@^4.0.0-beta.3":
+  "integrity" "sha512-98KoI4axalqyrlZMEavKfBBtJOJugHtpC1n/TPLx3edS0GFSUg9YkvtqFKAaOHjbaz5729b2U0MczMr39TM65A=="
+  "resolved" "https://registry.npmjs.org/timeago.js/-/timeago.js-4.0.0-beta.3.tgz"
+  "version" "4.0.0-beta.3"
+
 "timers-browserify@^2.0.4":
   "integrity" "sha512-9phl76Cqm6FhSX9Xe1ZUAMLtm1BLkKj2Qd5ApyWkXzsMRaA7dgr81kf4wJmQf/hAvg8EEyJxDo3du/0KlhPiKQ=="
   "resolved" "https://registry.npmjs.org/timers-browserify/-/timers-browserify-2.0.12.tgz"

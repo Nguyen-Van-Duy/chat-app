@@ -1,4 +1,5 @@
 import Users from '../models/Users.js';
+import mongoose from 'mongoose';
 
 export const UserController = async (req, res) => {
     const newUsers = new Users({
@@ -66,7 +67,7 @@ export const LoginController = async (req, res) => {
 
 export const GetUserController = async (req, res) => {
     try {
-        const data = await Users.find()
+        const data = await Users.findById(req.params.userId)
         res.status(200).json(data)
     } catch (error) {
         res.status(500).json({ error})

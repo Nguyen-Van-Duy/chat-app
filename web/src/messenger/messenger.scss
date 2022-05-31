@@ -12,6 +12,17 @@
 
 .chatBox {
     flex: 5.5;
+    height: 100%;
+    .chatBoxWrapper {
+        height: calc(100vh - 220px);
+    }
+    .chatBoxBottom {
+        height: 200px;
+        .box-chat {
+            height: 80px;
+            width: 100%;
+        }
+    }
 }
 
 .chatOnline {
@@ -21,5 +32,6 @@
 
 .chatMenuWrapper,.chatBoxWrapper,.chatOnlineWrapper {
     padding: 10px;
-    height: 100%;
+    // height: 100%;
 }
+

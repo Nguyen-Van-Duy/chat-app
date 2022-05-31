@@ -4,8 +4,7 @@ import {UserController, LoginController, GetUserController, GetFriendController}
 const router = express.Router();
 
 router.post('/user', UserController)
-router.get('/user', GetUserController)
-router.get('/user/:userId', GetFriendController)
 router.post('/login', LoginController)
+router.get('/user/:userId', GetUserController)
 
 export default router;

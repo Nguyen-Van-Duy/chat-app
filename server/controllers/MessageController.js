@@ -13,8 +13,9 @@ export const SendMessageController = async (req, res) => {
 
 export const GetMessageController = async (req, res) => {
     try {
+        console.log(req.params.conversationId);
         const messages = await Message.find({
-            coversationId: req.params.conversationId
+            conversationId: req.params.conversationId
         })
         res.status(200).json(messages)
     } catch (error) {
