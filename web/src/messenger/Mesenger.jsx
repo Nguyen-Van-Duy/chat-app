@@ -1,27 +1,43 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Conversation from '../conversation/Conversation';
 import './messenger.scss'
 import axios from 'axios'
 import Message from '../message/Message';
+import {io} from 'socket.io-client'
 
 function Mesenger() {
   const navigate = useNavigate()
   const [userConversation, setUserConversation] = useState([])
   const [currentChat, setCurrentChat] = useState(null)
   const [message, setMessage] = useState(null)
+  // const [socket, setSocket] = useState(null)
   const isLogin = useSelector(state=> state.loginSlice.isLogin)
   const userId = useSelector(state=> state.loginSlice.userId)
-
-  console.log(currentChat);
+  const socket = useRef()
+  console.log("conversation: ",currentChat?._id);
 
   useEffect(() => {
-    const fetchData = async () => {
+    socket.current = io("http://localhost:5000") 
+  }, [])
+
+
+  useEffect(() => {
+    if(userId !== null) {
+      socket.current.emit("addUser", userId)
+    }
+    socket.current.on("getUsers", users => {
+      console.log(users);
+    })
+  }, [userId])
+
+  useEffect(() => {
+    const getConversation = async () => {
       const data = await axios.get('http://localhost:5000/conversation/' + userId)
       setUserConversation(data.data)
     }
-    fetchData()
+    getConversation()
   }, [userId])
 
   useEffect(() => {

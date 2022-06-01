@@ -1,7 +1,7 @@
 import Conversation from "../models/Conversation.js";
 
 export const ConversationController = async (req, res) => {
-    console.log(req.body.senderId, req.body.receiverId);
+    // console.log(req.body.senderId, req.body.receiverId);
     const newConversation = new Conversation({
         members: [req.body.senderId, req.body.receiverId],
     })
@@ -19,8 +19,8 @@ export const GetIdConversation = async (req, res) => {
         const conversation = await Conversation.find({
             members: {$in:[req.params.userId]}
         })
-        console.log(req.params.userId);
-        console.log(conversation);
+        // console.log(req.params.userId);
+        // console.log(conversation);
         res.status(200).json(conversation)
     } catch (error) {
         res.status(500).json({ error})

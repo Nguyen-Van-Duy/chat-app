@@ -28,7 +28,7 @@ export const UserController = async (req, res) => {
 export const LoginController = async (req, res) => {
     try{
         const data = await Users.find({email: req.body.email, password: req.body.password})
-        console.log(data);
+        // console.log(data);
         if(data.length === 0) {
             res.json({
                 status: 401,

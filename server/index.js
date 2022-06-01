@@ -28,25 +28,62 @@ mongoose.connect(URI, {useNewUrlParser: true, useUnifiedTopology: true})
     console.log('err', err);
   })
 
-const socketIo = new Server(server, {
-  cors: {
-    origin: "*",
-}
-})
-
-socketIo.on("connection", (socket) => {
-  console.log("New client connected" + socket.id);
-
-  socket.emit("getId", socket.id);
-
-  socket.on("sendDataClient", function(data) {
-    console.log(data)
-    socketIo.emit("sendDataServer", { data });
+  //socket
+  const socketIo = new Server(server, {
+    cors: {
+      origin: "*",
+    }
   })
 
+  let users = []
+  const addUsers = (userId, socketId) => {
+    !users.some(item=> item.userId === userId) && users.push({userId, socketId})
+    console.log(users);
+  }
+  const removeUser = (socketId) => {
+    users = users.filter(user=> user.socketId !== socketId)
+  }
+
+socketIo.on("connection", (socket) => {
+  console.log("a user connected.");
+
+  // when connect 
+  socket.on("addUser", (userId)=> {
+    console.log("user id",userId);
+    
+    addUsers(userId, socket.id)
+    console.log(" array user id",users);
+    socketIo.emit("getUsers", users)
+
+  })
+
+  //when disconnect
   socket.on("disconnect", () => {
-    console.log("Client disconnected");
+    console.log("a user disconnected!");
+    removeUser(socket.id);
+    socketIo.emit("getUsers", users);
+    console.log("user remove: ", users);
   });
+
+
+
+
+
+
+
+
+  // console.log("New client connected" + socket.id);
+
+  // socket.emit("getId", socket.id);
+
+  // socket.on("sendDataClient", function(data) {
+  //   console.log(data)
+  //   socketIo.emit("sendDataServer", { data });
+  // })
+
+  // socket.on("disconnect", () => {
+  //   console.log("Client disconnected");
+  // });
 });
 
 
