@@ -44,6 +44,14 @@ mongoose.connect(URI, {useNewUrlParser: true, useUnifiedTopology: true})
     users = users.filter(user=> user.socketId !== socketId)
   }
 
+  const getUser = userId => {
+    console.log("id sender:", userId);
+    console.log("id conversation:", users);
+    const data = users.find(user => user.userId === userId)
+    console.log(data);
+    return data
+  }
+
 socketIo.on("connection", (socket) => {
   console.log("a user connected.");
 
@@ -55,6 +63,17 @@ socketIo.on("connection", (socket) => {
     console.log(" array user id",users);
     socketIo.emit("getUsers", users)
 
+  })
+
+  //send and get message
+  socket.on("sendMessage", (data)=> {
+    console.log("receiverId", data);
+    const user = getUser(data.receiverId)
+    console.log("user socketId:",user);
+    socketIo.to(user.socketId).emit("getMessage", {
+      senderId: data.senderId,
+      text: data.text,
+    })
   })
 
   //when disconnect
