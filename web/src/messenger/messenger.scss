@@ -12,12 +12,13 @@
 
 .chatBox {
     flex: 5.5;
-    height: 100%;
+    height: 100vh;
     .chatBoxWrapper {
-        height: calc(100vh - 220px);
+        height: 70vh;
+        overflow-y: auto;
     }
     .chatBoxBottom {
-        height: 200px;
+        height: calc(30vh - 20px);
         .box-chat {
             height: 80px;
             width: 100%;

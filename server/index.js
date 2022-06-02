@@ -70,10 +70,12 @@ socketIo.on("connection", (socket) => {
     console.log("receiverId", data);
     const user = getUser(data.receiverId)
     console.log("user socketId:",user);
-    socketIo.to(user.socketId).emit("getMessage", {
-      senderId: data.senderId,
-      text: data.text,
-    })
+    if(user?.socketId) {
+      socketIo.to(user.socketId).emit("getMessage", {
+        senderId: data.senderId,
+        text: data.text,
+      })
+    }
   })
 
   //when disconnect
@@ -83,6 +85,7 @@ socketIo.on("connection", (socket) => {
     socketIo.emit("getUsers", users);
     console.log("user remove: ", users);
   });
+  
 
 
 
