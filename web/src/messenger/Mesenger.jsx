@@ -18,24 +18,27 @@ function Mesenger() {
   const userId = useSelector((state) => state.loginSlice.userId);
   const socket = useRef();
   console.log("conversation: ", currentChat?._id);
+  const scrollRef = useRef();
 
-  // const [isReceive, setIsReceive] = useState(false);
+  const [isReceive, setIsReceive] = useState(false);
 
   useEffect(() => {
     socket.current = io("http://localhost:5000");
-    // if (isReceive === false) {
+    if (isReceive === false) {
       socket.current.on("getMessage", (data) => {
+        console.log('1111111');
         setArrivalMessage({
           sender: data.senderId,
           text: data.text,
           createdAt: Date.now(),
         });
       });
-    // }
+    }
 
-    // return () => {
-    //   setIsReceive(true);
-    // };
+    return () => {
+      console.log('2222');
+      setIsReceive(true);
+    };
   }, []);
 
   useEffect(() => {
@@ -120,6 +123,11 @@ function Mesenger() {
     }
   };
 
+  useEffect(() => {
+    console.log(scrollRef.current);
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [message]);
+
   return (
     <div className="messenger">
       <div className="chatMenu">
@@ -137,7 +145,7 @@ function Mesenger() {
           <>
             <div className="chatBoxWrapper">
               {message?.map((item, id) => (
-                <div key={id}>
+                <div key={id} ref={scrollRef}>
                   <Message own={item.sender === userId} message={item} />
                 </div>
               ))}
