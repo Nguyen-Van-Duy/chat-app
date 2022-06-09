@@ -17,7 +17,7 @@ function Mesenger() {
   const isLogin = useSelector((state) => state.loginSlice.isLogin);
   const userId = useSelector((state) => state.loginSlice.userId);
   const socket = useRef();
-  console.log("conversation: ", currentChat?._id);
+  // console.log("conversation: ", currentChat?._id);
 
   // const [isReceive, setIsReceive] = useState(false);
 
