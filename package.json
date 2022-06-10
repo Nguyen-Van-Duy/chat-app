@@ -1,0 +1,25 @@
+{
+  "name": "chat-app",
+  "version": "1.0.0",
+  "description": "socket.io + react + node.js(express) Chat real time app .",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "cd server && npm start",
+    "client": "cd web && npm start",
+    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nguyen-Van-Duy/chat-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nguyen-Van-Duy/chat-app/issues"
+  },
+  "homepage": "https://github.com/Nguyen-Van-Duy/chat-app#readme",
+  "dependencies": {
+    "concurrently": "^3.6.1"
+  }
+}

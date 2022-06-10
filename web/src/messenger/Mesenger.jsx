@@ -17,8 +17,9 @@ function Mesenger() {
   const isLogin = useSelector((state) => state.loginSlice.isLogin);
   const userId = useSelector((state) => state.loginSlice.userId);
   const socket = useRef();
-  console.log("conversation: ", currentChat?._id);
   const scrollRef = useRef();
+  // console.log("conversation: ", currentChat?._id);
+  console.log("id", process.env.REACT_APP_CONNECT_SERVER);
 
   const [isReceive, setIsReceive] = useState(false);
 
