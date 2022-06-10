@@ -6,6 +6,7 @@ import { setUserId } from '../store/reducers/LoginSlice';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
+const urlConnect = process.env.REACT_APP_CONNECT_SERVER
 const Login = () => {
     const userId = useSelector((state) => state.loginSlice.userId)
     const isLogin = useSelector((state) => state.loginSlice.isLogin)
@@ -21,7 +22,7 @@ const Login = () => {
   console.log(userId);
     const handleRegister = async (e) => {
         e.preventDefault();
-        const result = await axios.post('http://localhost:5000/account/user', {
+        const result = await axios.post(urlConnect + 'account/user', {
             userName: e.target[0].value,
             email: e.target[1].value,
             password: e.target[2].value
@@ -40,7 +41,7 @@ const Login = () => {
             alert("Không được để trống!")
             return
         }
-        const result = await axios.post('http://localhost:5000/account/login', {
+        const result = await axios.post(urlConnect + 'account/login', {
             email: e.target[0].value,
             password: e.target[1].value
         })

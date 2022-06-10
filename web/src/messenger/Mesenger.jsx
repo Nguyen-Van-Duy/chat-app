@@ -7,6 +7,8 @@ import axios from "axios";
 import Message from "../message/Message";
 import { io } from "socket.io-client";
 
+const urlConnect = process.env.REACT_APP_CONNECT_SERVER
+
 function Mesenger() {
   const navigate = useNavigate();
   const [userConversation, setUserConversation] = useState([]);
@@ -19,12 +21,12 @@ function Mesenger() {
   const socket = useRef();
   const scrollRef = useRef();
   // console.log("conversation: ", currentChat?._id);
-  console.log("id", process.env.REACT_APP_CONNECT_SERVER);
+  // console.log("id", process.env.REACT_APP_CONNECT_SERVER);
 
   const [isReceive, setIsReceive] = useState(false);
 
   useEffect(() => {
-    socket.current = io("http://localhost:5000");
+    socket.current = io(urlConnect);
     if (isReceive === false) {
       socket.current.on("getMessage", (data) => {
         console.log('1111111');
@@ -40,7 +42,7 @@ function Mesenger() {
       console.log('2222');
       setIsReceive(true);
     };
-  }, []);
+  }, [isReceive]);
 
   useEffect(() => {
     arrivalMessage &&
@@ -60,7 +62,7 @@ function Mesenger() {
   useEffect(() => {
     const getConversation = async () => {
       const data = await axios.get(
-        "http://localhost:5000/conversation/" + userId
+        urlConnect + "conversation/" + userId
       );
       setUserConversation(data.data);
     };
@@ -71,7 +73,7 @@ function Mesenger() {
     const getMessages = async () => {
       try {
         const data = await axios.get(
-          "http://localhost:5000/message/" + currentChat?._id
+          urlConnect + "message/" + currentChat?._id
         );
         setMessage(data.data);
         console.log("total message: ", data.data);
@@ -105,7 +107,7 @@ function Mesenger() {
       text: e.target[0].value,
     });
     try {
-      const data = await axios.post("http://localhost:5000/message", {
+      const data = await axios.post( urlConnect + "message", {
         conversationId: currentChat._id,
         sender: userId,
         text: e.target[0].value,

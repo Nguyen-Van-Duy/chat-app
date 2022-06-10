@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import './conversation.scss'
 
+
 export default function Conversation({item, currentId}) {
 
   const [user, setUser] = useState(null)
@@ -9,7 +10,7 @@ export default function Conversation({item, currentId}) {
   useEffect(()=> {
     const friendId = item.members.find(f=> f !== currentId)
     const getUser = async () => {
-      const data = await axios.get('http://localhost:5000/account/user/' + friendId)
+      const data = await axios.get(process.env.REACT_APP_CONNECT_SERVER + 'account/user/' + friendId)
       setUser(data.data)
     }
     getUser()

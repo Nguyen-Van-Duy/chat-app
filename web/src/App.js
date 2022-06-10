@@ -7,6 +7,7 @@ import Mesenger from "./messenger/Mesenger";
 // const host = "http://localhost:5000";
 
 function App() {
+  console.log("id", process.env.REACT_APP_CONNECT_SERVER);
   return (
       <div className="box-chat">
         <Routes>
