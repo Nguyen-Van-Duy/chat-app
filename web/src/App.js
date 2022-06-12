@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Login from "./login/Login";
 import Mesenger from "./messenger/Mesenger";
+import Upload from "./upload/Upload";
 // const host = "http://localhost:5000";
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
   return (
       <div className="box-chat">
         <Routes>
+            <Route path="/upload" element={<Upload />} />
             <Route path="/" element={<Login />} />
             <Route path="/messenger" element={<Mesenger />} />
             <Route path="*" element={<Login />} />
