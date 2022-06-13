@@ -13,6 +13,18 @@ const Login = () => {
     const navigate = useNavigate()
   const dispatch = useDispatch()
 
+  const token = localStorage.getItem('token')
+  useEffect(()=> {
+    const authentication = async () => {
+        console.log(token);
+        if(token) {
+            const result = await axios.get(urlConnect + 'account/refresh', { headers: {"Authorization" : `Bearer ${token}`} });
+            console.log(result);
+        }
+    }
+    authentication()
+  }, [token])
+
   useEffect(() => {
     if(isLogin) {
         navigate('/messenger')
@@ -22,7 +34,7 @@ const Login = () => {
   console.log(userId);
     const handleRegister = async (e) => {
         e.preventDefault();
-        const result = await axios.post(urlConnect + 'account/user', {
+        const result = await axios.post(urlConnect + 'account/create-account', {
             userName: e.target[0].value,
             email: e.target[1].value,
             password: e.target[2].value
@@ -47,6 +59,7 @@ const Login = () => {
         })
         if(result.data.status === 200) {
             console.log(result);
+            localStorage.setItem("token", result.data.token)
             dispatch(setUserId(result.data._id))
             navigate('/messenger')
         } else {

@@ -25,6 +25,10 @@ function Mesenger() {
 
   const [isReceive, setIsReceive] = useState(false);
 
+  const token = localStorage.getItem('token')
+
+  console.log(typeof token)
+
   useEffect(() => {
     socket.current = io(urlConnect);
     if (isReceive === false) {
