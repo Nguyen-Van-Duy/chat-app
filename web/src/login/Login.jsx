@@ -5,27 +5,41 @@ import { setUserId } from '../store/reducers/LoginSlice';
 // import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useState } from 'react';
 
 const urlConnect = process.env.REACT_APP_CONNECT_SERVER
 const Login = () => {
     const userId = useSelector((state) => state.loginSlice.userId)
     const isLogin = useSelector((state) => state.loginSlice.isLogin)
+    const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const token = localStorage.getItem('token')
   useEffect(()=> {
     const authentication = async () => {
+        setLoading(true)
         console.log(token);
         if(token) {
-            const result = await axios.get(urlConnect + 'account/refresh', { headers: {"Authorization" : `Bearer ${token}`} });
-            console.log(result);
+            try {
+                const result = await axios.get(urlConnect + 'account/refresh', { headers: {"Authorization" : `Bearer ${token}`} });
+                console.log("success authentication token: ",result);
+                dispatch(setUserId(result.data.id))
+                setLoading(false)
+            } catch (error) {
+                console.log(error);
+                setLoading(false)
+                return
+            }
+        } else {
+            setLoading(false)
         }
     }
     authentication()
-  }, [token])
+  }, [token, dispatch])
 
   useEffect(() => {
+    console.log(isLogin);
     if(isLogin) {
         navigate('/messenger')
     }
@@ -69,8 +83,8 @@ const Login = () => {
 
     return (
         <div className="body">
-            <div className="main">  	
-            <input type="checkbox" id="chk" aria-hidden="true" />
+            {!loading ? <div className="main">  	
+                <input type="checkbox" id="chk" aria-hidden="true" />
 
                 <div className="signup">
                     <form onSubmit={handleRegister}>
@@ -90,7 +104,7 @@ const Login = () => {
                         <button type='submit'>Login</button>
                     </form>
                 </div>
-            </div>
+            </div>: <h1 style={{color: "#fff"}}>Loading...</h1>}
         </div>
     );
 };

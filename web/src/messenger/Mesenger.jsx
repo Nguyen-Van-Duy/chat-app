@@ -6,6 +6,7 @@ import "./messenger.scss";
 import axios from "axios";
 import Message from "../message/Message";
 import { io } from "socket.io-client";
+import Friend from "../friend/Friend";
 
 const urlConnect = process.env.REACT_APP_CONNECT_SERVER
 
@@ -15,6 +16,7 @@ function Mesenger() {
   const [currentChat, setCurrentChat] = useState(null);
   const [message, setMessage] = useState(null);
   const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [addNewFriend, setAddNewFriend] = useState(false);
   // const [socket, setSocket] = useState(null)
   const isLogin = useSelector((state) => state.loginSlice.isLogin);
   const userId = useSelector((state) => state.loginSlice.userId);
@@ -26,8 +28,9 @@ function Mesenger() {
   const [isReceive, setIsReceive] = useState(false);
 
   const token = localStorage.getItem('token')
+  console.log(token);
 
-  console.log(typeof token)
+  
 
   useEffect(() => {
     socket.current = io(urlConnect);
@@ -71,7 +74,7 @@ function Mesenger() {
       setUserConversation(data.data);
     };
     getConversation();
-  }, [userId]);
+  }, [userId, addNewFriend]);
 
   useEffect(() => {
     const getMessages = async () => {
@@ -135,6 +138,15 @@ function Mesenger() {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [message]);
 
+  const addFriend = async (receiverId) => {
+    const result = await axios.post(urlConnect + 'conversation/add-friend',{receiverId, senderId: userId }, { headers: {"Authorization" : `Bearer ${token}`} })
+    console.log(result);
+    if(result.status === 200) {
+      setAddNewFriend(!addNewFriend)
+      alert("Success")
+    }
+  }
+
   return (
     <div className="messenger">
       <div className="chatMenu">
@@ -170,7 +182,9 @@ function Mesenger() {
           <span>Open a conversation to start a chat</span>
         )}
       </div>
-      <div className="chatOnline"></div>
+      <div className="chatOnline">
+        <Friend currentId={userId} addFriend={addFriend} />
+      </div>
     </div>
   );
 }
