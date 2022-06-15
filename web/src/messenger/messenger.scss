@@ -21,7 +21,7 @@
         height: calc(30vh - 20px);
         .box-chat {
             height: 80px;
-            width: 100%;
+            width: 90%;
         }
     }
 }
@@ -35,4 +35,17 @@
     padding: 10px;
     // height: 100%;
 }
+
+// .chatBoxBottom {
+//     position: relative;
+//     .emoji-icon {
+//         width: 50px;
+//         position: absolute;
+//         right: 70px;
+//     }
+//     .box-icon {
+//         position: absolute;
+//         top: -300px;
+//     }
+// }
 

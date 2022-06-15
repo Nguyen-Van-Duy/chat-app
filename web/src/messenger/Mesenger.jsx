@@ -7,6 +7,7 @@ import axios from "axios";
 import Message from "../message/Message";
 import { io } from "socket.io-client";
 import Friend from "../friend/Friend";
+import Picker, { SKIN_TONE_MEDIUM_DARK } from "emoji-picker-react";
 
 const urlConnect = process.env.REACT_APP_CONNECT_SERVER
 
@@ -28,7 +29,13 @@ function Mesenger() {
   const [isReceive, setIsReceive] = useState(false);
 
   const token = localStorage.getItem('token')
-  console.log(token);
+  const [inputStr, setInputStr] = useState("");
+  const [showPicker, setShowPicker] = useState(false);
+
+  const onEmojiClick = (event, emojiObject) => {
+    setInputStr((prevInput) => prevInput + emojiObject.emoji);
+    setShowPicker(false);
+  };
 
   
 
@@ -103,7 +110,8 @@ function Mesenger() {
     console.log({
       conversationId: currentChat._id,
       sender: userId,
-      text: e.target[0].value,
+      // text: e.target[0].value,
+      text: inputStr,
     });
 
     const receiverId = currentChat.members.find((member) => member !== userId);
@@ -111,13 +119,15 @@ function Mesenger() {
     socket.current.emit("sendMessage", {
       senderId: userId,
       receiverId,
-      text: e.target[0].value,
+      // text: e.target[0].value,
+      text: inputStr,
     });
     try {
       const data = await axios.post( urlConnect + "message", {
         conversationId: currentChat._id,
         sender: userId,
-        text: e.target[0].value,
+        // text: e.target[0].value,
+        text: inputStr,
       });
       console.log(data);
       setMessage((d) => [
@@ -125,7 +135,8 @@ function Mesenger() {
         {
           conversationId: currentChat._id,
           sender: userId,
-          text: e.target[0].value,
+          // text: e.target[0].value,
+          text: inputStr,
         },
       ]);
     } catch (error) {
@@ -171,10 +182,20 @@ function Mesenger() {
             </div>
             <div className="chatBoxBottom">
               <form onSubmit={handleSendMessage}>
-                <textarea name="mesage-send" className="box-chat" />
+                <textarea name="mesage-send" className="box-chat" value={inputStr} onChange={(e) => setInputStr(e.target.value)} />
+                <img
+                  className="emoji-icon" alt=""
+                  src="https://icons.getbootstrap.com/assets/icons/emoji-smile.svg"
+                  onClick={() => setShowPicker((val) => !val)}
+                />
+                
+                  {showPicker && <div>
+      <Picker onEmojiClick={onEmojiClick} pickerStyle={{ width: '70%' }} />
+    </div>}
                 <button className="chatSubmitButton" type="submit">
                   Send
                 </button>
+                
               </form>
             </div>
           </>

@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/Nguyen-Van-Duy/chat-app#readme",
   "dependencies": {
-    "concurrently": "^3.6.1"
+    "concurrently": "^3.6.1",
+    "emoji-picker-react": "^3.5.1"
   }
 }

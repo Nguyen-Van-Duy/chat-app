@@ -54,7 +54,7 @@ const Login = () => {
             password: e.target[2].value
         })
         console.log(result);
-        if(result.data.status === 200) {
+        if(result.status === 200) {
             alert("Đăng ký thành công!")
         } else {
             alert(result.data.message)
