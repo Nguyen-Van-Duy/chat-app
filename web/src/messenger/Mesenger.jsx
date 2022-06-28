@@ -7,9 +7,10 @@ import axios from "axios";
 import Message from "../message/Message";
 import { io } from "socket.io-client";
 import Friend from "../friend/Friend";
-import Picker, { SKIN_TONE_MEDIUM_DARK } from "emoji-picker-react";
+import Picker from "emoji-picker-react";
 
 const urlConnect = process.env.REACT_APP_CONNECT_SERVER
+const urlConnectSocketIO = process.env.REACT_APP_CONNECT_SOCKETIO
 
 function Mesenger() {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ function Mesenger() {
   // console.log("id", process.env.REACT_APP_CONNECT_SERVER);
 
   const [isReceive, setIsReceive] = useState(false);
+  const [isAddFriend, setIsAddFriend] = useState(false);
 
   const token = localStorage.getItem('token')
   const [inputStr, setInputStr] = useState("");
@@ -40,7 +42,7 @@ function Mesenger() {
   
 
   useEffect(() => {
-    socket.current = io(urlConnect);
+    socket.current = io(urlConnectSocketIO);
     if (isReceive === false) {
       socket.current.on("getMessage", (data) => {
         console.log('1111111');
@@ -68,10 +70,17 @@ function Mesenger() {
     if (userId !== null) {
       socket.current.emit("addUser", userId);
     }
-    socket.current.on("getUsers", (users) => {
-      console.log("user online: ", users);
-    });
-  }, [userId]);
+    if(isAddFriend === false) {
+      socket.current.on("getUsers", (users) => {
+        console.log("user online: ", users);
+      });
+    }
+    return () => {
+      setIsAddFriend(true);
+    };
+
+
+  }, [userId, isAddFriend]);
 
   useEffect(() => {
     const getConversation = async () => {
@@ -204,7 +213,7 @@ function Mesenger() {
         )}
       </div>
       <div className="chatOnline">
-        <Friend currentId={userId} addFriend={addFriend} />
+        {userId && <Friend currentId={userId} addFriend={addFriend} />}
       </div>
     </div>
   );

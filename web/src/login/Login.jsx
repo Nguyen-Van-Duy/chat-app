@@ -9,7 +9,7 @@ import { useState } from 'react';
 
 const urlConnect = process.env.REACT_APP_CONNECT_SERVER
 const Login = () => {
-    const userId = useSelector((state) => state.loginSlice.userId)
+    const userId = useSelector((state) => state.loginSlice?.userId)
     const isLogin = useSelector((state) => state.loginSlice.isLogin)
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
@@ -17,6 +17,9 @@ const Login = () => {
 
   const token = localStorage.getItem('token')
   useEffect(()=> {
+    if(isLogin) {
+        navigate('/messenger')
+    }
     const authentication = async () => {
         setLoading(true)
         console.log(token);
@@ -26,6 +29,7 @@ const Login = () => {
                 console.log("success authentication token: ",result);
                 dispatch(setUserId(result.data.id))
                 setLoading(false)
+                navigate('/messenger')
             } catch (error) {
                 console.log(error);
                 setLoading(false)
@@ -35,21 +39,27 @@ const Login = () => {
             setLoading(false)
         }
     }
-    authentication()
-  }, [token, dispatch])
-
-  useEffect(() => {
-    console.log(isLogin);
-    if(isLogin) {
-        navigate('/messenger')
+    if(!isLogin) {
+        authentication()
     }
-  }, [isLogin, navigate])
+
+    return() => {
+        
+    }
+  }, [token, dispatch, isLogin, navigate])
+
+//   useEffect(() => {
+//     console.log(isLogin);
+//     if(isLogin) {
+//         navigate('/messenger')
+//     }
+//   }, [isLogin, navigate])
 
   console.log(userId);
     const handleRegister = async (e) => {
         e.preventDefault();
         const result = await axios.post(urlConnect + 'account/create-account', {
-            userName: e.target[0].value,
+            user_name: e.target[0].value,
             email: e.target[1].value,
             password: e.target[2].value
         })

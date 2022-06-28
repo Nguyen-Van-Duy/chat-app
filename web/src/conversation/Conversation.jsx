@@ -22,7 +22,7 @@ export default function Conversation({item, currentId}) {
         src="https://pdp.edu.vn/wp-content/uploads/2021/05/hinh-anh-avatar-nam-1-600x600.jpg"
         alt=""
       />
-      <span className="conversationName">{user?.userName}</span>
+      <span className="conversationName">{user?.user_name}</span>
     </div>
   )
 }

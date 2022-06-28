@@ -12,7 +12,7 @@ export default function Friend({currentId, addFriend}) {
    
     const getUser = async () => {
       const data = await axios.get(process.env.REACT_APP_CONNECT_SERVER + 'account/user')
-      const friend = data.data.filter(user=> user._id !== currentId)
+      const friend = await data.data.filter(user=> user._id !== currentId)
       setUser(friend)
     }
     getUser()
@@ -25,7 +25,7 @@ export default function Friend({currentId, addFriend}) {
         src="https://pdp.edu.vn/wp-content/uploads/2021/05/hinh-anh-avatar-nam-1-600x600.jpg"
         alt=""
       />
-      <span className="conversationName">{item.userName}</span>
+      <span className="conversationName">{item.user_name}</span>
       <ul className='friend__list'>
         <li className="friend__item">Xem</li>
         <li className="friend__item" onClick={()=>addFriend(item._id)}>Thêm bạn bè</li>
