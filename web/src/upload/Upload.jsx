@@ -17,7 +17,7 @@ function Upload(){
    console.log(formData);
 
    fetch(
-     'http://localhost:8080/upload-profile-pic',
+     'http://localhost:8080/api-movie/upload/upload-profile-pic',
      {
        method: 'POST',
        body: formData,

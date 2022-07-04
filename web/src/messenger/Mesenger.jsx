@@ -79,7 +79,6 @@ function Mesenger() {
       setIsAddFriend(true);
     };
 
-
   }, [userId, isAddFriend]);
 
   useEffect(() => {
@@ -199,8 +198,8 @@ function Mesenger() {
                 />
                 
                   {showPicker && <div>
-      <Picker onEmojiClick={onEmojiClick} pickerStyle={{ width: '70%' }} />
-    </div>}
+                    <Picker onEmojiClick={onEmojiClick} pickerStyle={{ width: '70%' }} />
+                  </div>}
                 <button className="chatSubmitButton" type="submit">
                   Send
                 </button>
